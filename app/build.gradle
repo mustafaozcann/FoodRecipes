@@ -7,6 +7,11 @@ android {
     namespace 'com.mzcn.foodrecipes'
     compileSdk 33
 
+
+    buildFeatures{
+        viewBinding true
+    }
+    
     defaultConfig {
         applicationId "com.mzcn.foodrecipes"
         minSdk 29
