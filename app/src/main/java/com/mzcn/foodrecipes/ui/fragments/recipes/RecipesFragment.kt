@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mzcn.foodrecipes.adapters.PlaceHolderAdapter
 import com.mzcn.foodrecipes.viewmodels.MainViewModel
 import com.mzcn.foodrecipes.adapters.RecipesAdapter
 import com.mzcn.foodrecipes.databinding.FragmentRecipesBinding
@@ -31,9 +32,16 @@ class RecipesFragment : Fragment() {
 
     }
 
-    private val mAdapter by lazy {
+
+    private val recipesAdapter by lazy {
         RecipesAdapter()
     }
+
+    private val placeHolderAdapter by lazy {
+        PlaceHolderAdapter()
+    }
+
+
     private lateinit var binding: FragmentRecipesBinding
     //
     override fun onCreateView(
@@ -43,7 +51,7 @@ class RecipesFragment : Fragment() {
 
         binding = FragmentRecipesBinding.inflate(inflater, container, false)
 
-        setupRecyclerView()
+        showShimmerEffect()
         requestApiData()
 
         return binding.root
@@ -56,7 +64,7 @@ class RecipesFragment : Fragment() {
             when (response) {
                 is NetworkResult.Success -> {
                     hideShimmerEffect()
-                    response.data?.let { mAdapter.setData(it) }
+                    response.data?.let { recipesAdapter.setData(it) }
                 }
                 is NetworkResult.Error ->{
                     hideShimmerEffect()
@@ -73,17 +81,17 @@ class RecipesFragment : Fragment() {
 
 
     private fun setupRecyclerView(){
-        binding.recyclerView.adapter = mAdapter
+        binding.recyclerView.adapter = recipesAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        showShimmerEffect()
     }
 
     private fun showShimmerEffect(){
-
+        binding.recyclerView.adapter = placeHolderAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun hideShimmerEffect(){
-
+        setupRecyclerView()
     }
 
 
