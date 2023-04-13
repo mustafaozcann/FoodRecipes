@@ -1,15 +1,12 @@
-package com.mzcn.foodrecipes
+package com.mzcn.foodrecipes.ui.fragments.recipes
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.Orientation
-import com.mzcn.foodrecipes.databinding.ActivityMainBinding
+import com.mzcn.foodrecipes.RecyclerAdapter
 import com.mzcn.foodrecipes.databinding.FragmentRecipesBinding
-import com.mzcn.foodrecipes.databinding.PlaceholderRowLayoutBinding
 
 
 class RecipesFragment : Fragment() {
