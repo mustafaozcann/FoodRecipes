@@ -1,4 +1,4 @@
-package com.mzcn.foodrecipes
+package com.mzcn.foodrecipes.viewmodels
 
 import android.app.Application
 import android.content.Context
