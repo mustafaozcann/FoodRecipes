@@ -4,10 +4,11 @@ In this repository contains a mobile application developed with Kotlin, based on
 <h1 align="center">Foody</h1>
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/66571666/232258036-43621445-4142-453e-8cf2-71e8d3e999e9.png" width="%30 height="%30">
+<img src="https://user-images.githubusercontent.com/66571666/232258074-75ad83f8-1b1d-4ee0-a70d-2ab7a744a463.png">
 </p>
 
-## 🔖 Libraries
+## 🔖 Libraries!
+
 
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Navigation Component](https://developer.android.com/guide/navigation/navigation-getting-started) Navigation refers to the interactions that allow users to navigate across, into, and back out from the different pieces of content within your app.
