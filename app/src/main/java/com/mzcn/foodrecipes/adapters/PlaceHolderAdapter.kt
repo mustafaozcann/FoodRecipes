@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mzcn.foodrecipes.R
 
 class PlaceHolderAdapter : RecyclerView.Adapter<PlaceHolderAdapter.PlaceHolderViewHolder>() {
-    class PlaceHolderViewHolder(itemView : View)  : RecyclerView.ViewHolder(itemView){
-
-    }
+    class PlaceHolderViewHolder(itemView : View)  : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceHolderViewHolder {
         val inflater = LayoutInflater.from(parent.context).inflate(R.layout.placeholder_row_layout, parent, false)

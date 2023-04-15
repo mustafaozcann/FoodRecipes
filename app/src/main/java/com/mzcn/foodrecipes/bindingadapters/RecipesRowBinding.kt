@@ -18,6 +18,7 @@ class RecipesRowBinding {
         fun loadImageFromUrl(imageView: ImageView, imgUrl : String){
             imageView.load(imgUrl){
                 crossfade(600)
+                error(R.drawable.ic_error_placeholder)
             }
         }
 

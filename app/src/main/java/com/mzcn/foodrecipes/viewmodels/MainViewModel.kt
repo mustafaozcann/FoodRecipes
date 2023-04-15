@@ -5,12 +5,16 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.mzcn.foodrecipes.data.Repository
+import com.mzcn.foodrecipes.data.database.RecipesEntity
 import com.mzcn.foodrecipes.models.FoodRecipe
 import com.mzcn.foodrecipes.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -22,13 +26,21 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(application) {
 
 
+    /** ROOM DATABASE */
+
+    val readRecipes = repository.local.readDatabase()
+
+    private fun insertRecipes(recipesEntity: RecipesEntity) = viewModelScope.launch (Dispatchers.IO){
+        repository.local.insertRecipes(recipesEntity)
+    }
+
+
+    /** RETROFİT */
     var recipesResponse : MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
 
 
     fun getRecipes(queries : Map<String, String>) = viewModelScope.launch {
-
         getRecipesSafeCall(queries)
-
     }
 
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
@@ -40,6 +52,12 @@ class MainViewModel @Inject constructor(
             try {
                 val response = repository.remote.getRecipes(queries)
                 recipesResponse.value = handleFoodRecipesResponse(response)
+
+                val foodRecipe = recipesResponse.value!!.data
+
+                if(foodRecipe != null){
+                    offlineCacheRecipes(foodRecipe)
+                }
             }catch (e : java.lang.Exception){
                 recipesResponse.value = NetworkResult.Error("Recipes not found.")
             }
@@ -48,7 +66,12 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe>? {
+    private fun offlineCacheRecipes(foodRecipe: FoodRecipe) {
+        val recipesEntity = RecipesEntity(foodRecipe)
+        insertRecipes(recipesEntity)
+    }
+
+    private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
         when{
             response.message().toString().contains("timeout") ->{
                 return NetworkResult.Error("TimeOut")
